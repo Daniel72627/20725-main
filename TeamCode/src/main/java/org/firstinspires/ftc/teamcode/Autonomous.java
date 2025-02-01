@@ -2,7 +2,10 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+
+import org.firstinspires.ftc.ftccommon.internal.manualcontrol.parameters.MotorTargetVelocityParameters;
 
 
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Autonomous :(", group = "Utilities")
@@ -33,12 +36,12 @@ public class Autonomous extends LinearOpMode {
         SB = hardwareMap.get(Servo.class, "R");
 
         BL.setDirection(DcMotor.Direction.REVERSE);
-        BR.setDirection(DcMotor.Direction.REVERSE);
-        FR.setDirection(DcMotor.Direction.REVERSE);
+        BR.setDirection(DcMotor.Direction.FORWARD);
+        FR.setDirection(DcMotor.Direction.FORWARD);
         FL.setDirection(DcMotor.Direction.REVERSE);
 
-        SL.setDirection(DcMotor.Direction.REVERSE);
-        SR.setDirection(DcMotor.Direction.REVERSE);
+        SL.setDirection(DcMotor.Direction.FORWARD);
+        SR.setDirection(DcMotor.Direction.FORWARD);
 
         SWL.setDirection(Servo.Direction.FORWARD);
         SWR.setDirection(Servo.Direction.FORWARD);
@@ -49,7 +52,6 @@ public class Autonomous extends LinearOpMode {
         UR.setDirection(DcMotor.Direction.FORWARD);
 
         upBasket();
-        sleep(2000);
         moveForward(500);
         moveBackward(500);
         moveLeft(500);
@@ -67,6 +69,46 @@ public class Autonomous extends LinearOpMode {
         clawIn(2000);
         sleep(1000);
         downBasket();
+
+
+        // SCORE FIRST ONEEEEEEEEEEEEEE
+        moveLeft(500);
+        moveBackward(500);
+        turnLeft(500);
+        four_up(2000);
+        upBasket();
+        sleep(1000);
+        four_down(1000);
+        turnLeft(1000); // straightened
+
+        // SCORE FAR RIGHT
+        moveRight(1000); // align with first block far right
+        clawOut(1500);
+        openClaw();
+        sleep(1000);
+        downBasket();
+        downArm();
+        sleep(2000);
+        closeClaw();
+        sleep(200);
+        upArm();
+        clawIn(2000);
+        openClaw();
+        clawOut(100);
+        turnRight(1000);
+        moveBackward(1000);
+        four_up(2000);
+        upBasket();
+        sleep(1000);
+
+        turnLeft(1000);
+
+
+
+
+
+
+
 
 
 
@@ -164,8 +206,8 @@ public class Autonomous extends LinearOpMode {
     }
 
     public void clawOut(int time) {
-        SL.setPower(1);
-        SR.setPower(1);
+        SL.setPower(.6);
+        SR.setPower(.6);
         sleep(time);
         SL.setPower(0);
         SR.setPower(0);
@@ -173,8 +215,8 @@ public class Autonomous extends LinearOpMode {
     }
 
     public void clawIn(int time) {
-        SL.setPower(-1);
-        SR.setPower(-1);
+        SL.setPower(-.6);
+        SR.setPower(-.6);
         sleep(time);
         SL.setPower(0);
         SR.setPower(0);

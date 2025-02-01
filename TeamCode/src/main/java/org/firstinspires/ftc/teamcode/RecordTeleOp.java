@@ -261,9 +261,9 @@ public class RecordTeleOp extends OpMode {
     }
 
     public void setMotors(double fl, double fr, double br, double bl) {
-        FL.setPower(fl/2.3);
-        FR.setPower(fr/2.3);
-        BR.setPower(br/2.3);
-        BL.setPower(bl/2.3);
+        FL.setPower(fl*.7);
+        FR.setPower(fr*.7);
+        BR.setPower(br*.7);
+        BL.setPower(bl*.7);
     }
 }

@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@TeleOp(name = "RecordTeleOpTest_Blue_Basket", group = "Robot")
+@TeleOp(name = "RecordTeleOpTest_Red_Basket", group = "Robot")
 public class RecordTeleOp_Blue_Basket extends OpMode {
 
     public DcMotor BL, BR, FR, FL, SL, SR, UL,UR;
@@ -71,11 +71,11 @@ public class RecordTeleOp_Blue_Basket extends OpMode {
         SL.setPower(gamepad1.left_stick_x);
         SR.setPower(gamepad1.left_stick_x);
 
-        FR.setPower(gamepad1.right_stick_y);
-        BR.setPower(gamepad1.right_stick_y);
+        FR.setPower(gamepad1.right_stick_y*.75);
+        BR.setPower(gamepad1.right_stick_y*.75);
 
-        FL.setPower(gamepad1.left_stick_y);
-        BL.setPower(gamepad1.left_stick_y);
+        FL.setPower(gamepad1.left_stick_y*.75);
+        BL.setPower(gamepad1.left_stick_y*.75);
 
         UL.setPower(gamepad2.right_stick_y);
         UR.setPower(gamepad2.right_stick_y);
@@ -221,10 +221,10 @@ public class RecordTeleOp_Blue_Basket extends OpMode {
         double URPower;
     }
 
-    public void setMotors(int fl, int fr, int br, int bl) {
-        FL.setPower(fl);
-        FR.setPower(fr);
-        BR.setPower(br);
-        BL.setPower(bl);
+    public void setMotors(double fl, double fr, double br, double bl) {
+        FL.setPower(fl*.75);
+        FR.setPower(fr*.75);
+        BR.setPower(br*.75);
+        BL.setPower(bl*.75);
     }
 }
