@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@TeleOp(name = "RecordTeleOpTest_Red_Basket", group = "Robot")
+@TeleOp(name = "RecordTeleOpTest_Blue_Basket", group = "Robot")
 public class RecordTeleOp_Blue_Basket extends OpMode {
 
     public DcMotor BL, BR, FR, FL, SL, SR, UL,UR;

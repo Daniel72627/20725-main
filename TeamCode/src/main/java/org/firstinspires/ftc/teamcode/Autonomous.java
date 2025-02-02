@@ -36,12 +36,12 @@ public class Autonomous extends LinearOpMode {
         SB = hardwareMap.get(Servo.class, "R");
 
         BL.setDirection(DcMotor.Direction.REVERSE);
-        BR.setDirection(DcMotor.Direction.FORWARD);
-        FR.setDirection(DcMotor.Direction.FORWARD);
+        BR.setDirection(DcMotor.Direction.REVERSE);
+        FR.setDirection(DcMotor.Direction.REVERSE);
         FL.setDirection(DcMotor.Direction.REVERSE);
 
-        SL.setDirection(DcMotor.Direction.FORWARD);
-        SR.setDirection(DcMotor.Direction.FORWARD);
+        SL.setDirection(DcMotor.Direction.REVERSE);
+        SR.setDirection(DcMotor.Direction.REVERSE);
 
         SWL.setDirection(Servo.Direction.FORWARD);
         SWR.setDirection(Servo.Direction.FORWARD);
@@ -51,8 +51,9 @@ public class Autonomous extends LinearOpMode {
         UL.setDirection(DcMotor.Direction.FORWARD);
         UR.setDirection(DcMotor.Direction.FORWARD);
 
+
         upBasket();
-        moveForward(500);
+        moveForward(100000);
         moveBackward(500);
         moveLeft(500);
         moveRight(500);

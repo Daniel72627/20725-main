@@ -96,12 +96,12 @@ public class TeleOp_Main extends OpMode {
         UL.setPower(gamepad1.left_stick_y);
         UR.setPower(gamepad1.left_stick_y);
 
-        if(gamepad1.right_trigger > .2) {
+        if(gamepad1.right_trigger > .2) { // i think claw doen
             SWL.setPosition(.96);
             SWR.setPosition(.04);
         }
 
-        if(gamepad1.left_trigger > .2) {
+        if(gamepad1.left_trigger > .2) { // arm up
             SWL.setPosition(.4);
             SWR.setPosition(.6);
         }
