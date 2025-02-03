@@ -90,8 +90,16 @@ public class TeleOp_Main extends OpMode {
             setMotors(1,-1,-1,1);
         }
 
-        SL.setPower(gamepad1.right_stick_y);
-        SR.setPower(gamepad1.right_stick_y);
+
+        if(gamepad1.x) {
+            SL.setPower(.6);
+            SR.setPower(.6);
+        } else {
+            SL.setPower(0);
+            SR.setPower(0);
+        }
+        //SL.setPower(gamepad1.right_stick_y);
+        //SR.setPower(gamepad1.right_stick_y);
 
         UL.setPower(gamepad1.left_stick_y);
         UR.setPower(gamepad1.left_stick_y);

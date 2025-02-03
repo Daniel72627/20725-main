@@ -14,11 +14,15 @@ public class Encoder extends LinearOpMode {
     public DcMotor BL, BR, FR, FL, SL, SR, UL,UR;
     public Servo SWL,SWR,SC,SB;
 
-    static final double COUNTS_PER_MOTOR_REV = 537.6;    // eg: TETRIX Motor Encoder
+    static final double COUNTS_PER_MOTOR_REV = 537.7;    // eg: TETRIX Motor Encoder
     static final double DRIVE_GEAR_REDUCTION = 1.0;     // No External Gearing.
     static final double WHEEL_DIAMETER_INCHES = 3.77953;     // For figuring circumference
     public final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1415);
+
+    public final int MaxExtension = 1000;
+    public final int MinExtension = 0;
+    public final double ticks_per_angle = 7.12;
 
 
     @Override
@@ -41,10 +45,10 @@ public class Encoder extends LinearOpMode {
         SC = hardwareMap.get(Servo.class, "L");
         SB = hardwareMap.get(Servo.class, "R");
 
-        BL.setDirection(DcMotor.Direction.REVERSE);
-        BR.setDirection(DcMotor.Direction.REVERSE);
-        FR.setDirection(DcMotor.Direction.REVERSE);
-        FL.setDirection(DcMotor.Direction.REVERSE);
+        BL.setDirection(DcMotor.Direction.FORWARD);
+        BR.setDirection(DcMotor.Direction.FORWARD);
+        FR.setDirection(DcMotor.Direction.FORWARD);
+        FL.setDirection(DcMotor.Direction.FORWARD);
 
         SL.setDirection(DcMotor.Direction.REVERSE);
         SR.setDirection(DcMotor.Direction.REVERSE);
@@ -58,6 +62,13 @@ public class Encoder extends LinearOpMode {
         UR.setDirection(DcMotor.Direction.FORWARD);
 
         reset_encoders();
+        SL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        SR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+
+        SL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        SR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
 
         FL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         FR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -74,13 +85,13 @@ public class Encoder extends LinearOpMode {
         moveLeft(10,1);
         turnLeft(90);
         turnRight(90);
-        clawOut(2000);
+        clawOut();
         downArm(1000);
         openClaw(1000);
         closeClaw(1000);
         upArm(1000);
         downBasket(1000);
-        clawIn(2000);
+        clawIn();
         openClaw(1000);
 
 
@@ -97,15 +108,15 @@ public class Encoder extends LinearOpMode {
         // SCORE FAR RIGHT
         moveRight(3,1); // align with first block far right
         moveBackward(8,1);
-        clawOut(2000);
+        clawOut();
         openClaw(1000);
         downBasket(0);
         downArm(1500);
         closeClaw(1000);
         upArm(1000);
-        clawIn(3000);
+        clawIn();
         openClaw(1000);
-        clawOut(100); // Maybe bc claw be stuck inside basket maybe
+        clawOut(); // Maybe bc claw be stuck inside basket maybe // FIX THIS FIXXXXXXXXXXXXXXXXXXXXXXXX
         moveForward(8,1);
         moveLeft(3,1);
         turnRight(45);
@@ -118,13 +129,13 @@ public class Encoder extends LinearOpMode {
         // 2nd
         moveLeft(7,1);
         moveBackward(8,1);
-        clawOut(2000);
+        clawOut();
         openClaw(1000);
         downBasket(0);
         downArm(1000);
-        clawIn(3000);
+        clawIn();
         openClaw(1000);
-        clawOut(100);
+        clawOut(); // fix this toooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
         moveForward(8,1);
         moveRight(7,1);
         turnRight(45);
@@ -298,7 +309,7 @@ public class Encoder extends LinearOpMode {
 
     public void turnLeft(int angle) {
 
-        int targetPosition = (int) (angle * 7.12);
+        int targetPosition = (int) (angle * ticks_per_angle);
 
         FL.setTargetPosition(-targetPosition);
         BL.setTargetPosition(-targetPosition);
@@ -331,7 +342,7 @@ public class Encoder extends LinearOpMode {
 
     public void turnRight(int angle) {
 
-        int targetPosition = (int) (angle * 7.12 );
+        int targetPosition = (int) (angle * ticks_per_angle );
 
         FL.setTargetPosition(targetPosition);
         BL.setTargetPosition(targetPosition);
@@ -412,19 +423,32 @@ public class Encoder extends LinearOpMode {
 
     }
 
-    public void clawOut(int time) {
-        SL.setPower(.6);
-        SR.setPower(.6);
-        sleep(time);
+    public void clawOut() {
+        SL.setTargetPosition(MaxExtension);
+        SR.setTargetPosition(MaxExtension);
+        SL.setPower(.8);
+        SR.setPower(.8);
+
+        while (opModeIsActive() && (SL.isBusy() && SR.isBusy())) {
+
+        }
+
         SL.setPower(0);
         SR.setPower(0);
 
     }
 
-    public void clawIn(int time) {
-        SL.setPower(-.6);
-        SR.setPower(-.6);
-        sleep(time);
+    public void clawIn() {
+
+        SL.setTargetPosition(MinExtension);
+        SR.setTargetPosition(MinExtension);
+        SL.setPower(-.8);
+        SR.setPower(-.8);
+
+        while (opModeIsActive() && (SL.isBusy() && SR.isBusy())) {
+
+        }
+
         SL.setPower(0);
         SR.setPower(0);
 
