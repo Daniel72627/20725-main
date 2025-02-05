@@ -12,7 +12,7 @@ public class CharlesKiss extends OpMode {
     public DcMotor BL, BR, FR, FL, SL, SR, UL,UR;
     public Servo SWL,SWR,SC,SB;
 
-    public final int MaxExtension = 1000;
+    public final int MaxExtension = 250;
     public final int MinExtension = 0;
 
     @Override
@@ -34,13 +34,13 @@ public class CharlesKiss extends OpMode {
         SC = hardwareMap.get(Servo.class, "L");
         SB = hardwareMap.get(Servo.class, "R");
 
-        BL.setDirection(DcMotor.Direction.FORWARD);
+        BL.setDirection(DcMotor.Direction.REVERSE);
         BR.setDirection(DcMotor.Direction.FORWARD);
         FR.setDirection(DcMotor.Direction.FORWARD);
-        FL.setDirection(DcMotor.Direction.FORWARD);
+        FL.setDirection(DcMotor.Direction.REVERSE);
 
         SL.setDirection(DcMotor.Direction.REVERSE);
-        SR.setDirection(DcMotor.Direction.REVERSE);
+        SR.setDirection(DcMotor.Direction.FORWARD);
 
         SWL.setDirection(Servo.Direction.FORWARD);
         SWR.setDirection(Servo.Direction.FORWARD);
@@ -68,19 +68,32 @@ public class CharlesKiss extends OpMode {
 
     @Override
     public void loop() {
+
+
         int currentPosition = SL.getCurrentPosition();
         int currentPosition1 = SR.getCurrentPosition();
 
-        if (((currentPosition1 >= MaxExtension || currentPosition >= MaxExtension)) ||
-                ((currentPosition1 <= MinExtension || currentPosition <= MinExtension))) {
+        if (currentPosition1 >= MaxExtension || currentPosition >= MaxExtension) {
+
+            // Stop all motors if any limit is reached
+            SL.setPower(0);
+            SR.setPower(0);
+
+            if(gamepad1.left_stick_x < 0 ) {
+                FL.setPower(gamepad1.left_stick_x);
+                FR.setPower(gamepad1.left_stick_x);
+            }
+
+
+        } else if (currentPosition1 <= MinExtension || currentPosition <= MinExtension) {
 
             SL.setPower(0);
             SR.setPower(0);
-        } else {
 
-            double power = gamepad1.left_stick_x; // Adjust as needed
-            SL.setPower(power);
-            SR.setPower(power);
+            if (gamepad1.left_stick_x > 0) {
+                SL.setPower(gamepad1.left_stick_x);
+                SR.setPower(gamepad1.left_stick_x);
+            }
         }
 
         FR.setPower(gamepad1.right_stick_y);

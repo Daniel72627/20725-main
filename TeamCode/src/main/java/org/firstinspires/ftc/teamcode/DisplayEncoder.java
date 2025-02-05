@@ -32,8 +32,8 @@ public class DisplayEncoder extends OpMode {
         SB = hardwareMap.get(Servo.class, "R");
 
         BL.setDirection(DcMotor.Direction.REVERSE);
-        BR.setDirection(DcMotor.Direction.REVERSE);
-        FR.setDirection(DcMotor.Direction.REVERSE);
+        BR.setDirection(DcMotor.Direction.FORWARD);
+        FR.setDirection(DcMotor.Direction.FORWARD);
         FL.setDirection(DcMotor.Direction.REVERSE);
 
         SL.setDirection(DcMotor.Direction.REVERSE);

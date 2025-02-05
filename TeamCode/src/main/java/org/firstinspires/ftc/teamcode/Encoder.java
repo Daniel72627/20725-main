@@ -73,83 +73,82 @@ public class Encoder extends LinearOpMode {
         BR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         waitForStart();
-
-        //upBasket(1000);
-        //moveForward(10,1);
-        //moveBackward(10,1);
-        //moveLeft(10,1);
-        //moveRight(10,1);
-        //moveLeft(10,1);
-        //turnLeft(90);
-        //turnRight(90);
-        //clawOut();
-        //downArm(1000);
-        //openClaw(1000);
-        //closeClaw(1000);
-        //upArm(1000);
-        //downBasket(1000);
-        //clawIn();
-        //openClaw(1000);
-
-        clawOut();
-
-        sleep(100000);
-
-
-        // SCORE FIRST ONEEEEEEEEEEEEEE
         moveLeft(10,1);
         moveBackward(13,1);
         turnLeft(45);
         four_up();
-        upBasket(2500);
+        upBasket(3000);
         four_down();
         turnLeft(45); // straightened
 
         // SCORE FAR RIGHT
         moveRight(3,1); // align with first block far right
-        moveBackward(8,1);
+        moveBackward(7,1);
         clawOut();
-        openClaw(1000);
+        openClaw(2000);
         downBasket(0);
-        downArm(1500);
+        downArm(2000);
         closeClaw(1000);
-        upArm(1000);
+        upArm(1500);
         clawIn();
         openClaw(1000);
-        clawOut(); // Maybe bc claw be stuck inside basket maybe // FIX THIS FIXXXXXXXXXXXXXXXXXXXXXXXX
-        moveForward(8,1);
+        moveForward(7,1);
         moveLeft(3,1);
         turnRight(45);
+        clawOutLittle(); // so claw moves out of basket
+        sleep(2000);
         four_up();
-        upBasket(1000);
+        upBasket(3000);
         four_down();
         turnLeft(45); // Strightned
 
 
         // 2nd
         moveLeft(7,1);
-        moveBackward(8,1);
+        moveBackward(7,1);
         clawOut();
-        openClaw(1000);
+        openClaw(2000);
         downBasket(0);
-        downArm(1000);
+        downArm(2000);
         closeClaw(1000);
-        upArm(1000);
+        upArm(1500);
         clawIn();
         openClaw(1000);
-        clawOut(); // fix this toooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
-        moveForward(8,1);
+        moveForward(7,1);
         moveRight(7,1);
         turnRight(45);
+        clawOutLittle();
+        sleep(2000);
         four_up();
-        upBasket(1000);
+        upBasket(3000);
         four_down();
         turnLeft(45); // Strightned
 
         //3rd
-        // probably turn left 45 then back then extend and grab and all that just a lil different
 
-        // we just need to find the turning the numbers
+        turnLeft(33);
+        moveBackward(1,1);
+        clawOut();
+        openClaw(2000);
+        downBasket(0);
+        downArm(2000);
+        closeClaw(1000);
+        upArm(1500);
+        clawIn();
+        openClaw(1000);
+        moveForward(1,1);
+        turnRight(78);
+        clawOutLittle();
+        sleep(2000);
+        four_up();
+        upBasket(3000);
+        four_down();
+        turnLeft(45); // Strightned
+
+
+
+
+
 
 
 
@@ -423,7 +422,7 @@ public class Encoder extends LinearOpMode {
         SR.setTargetPosition(MaxExtension);
 
         SL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        SL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        SR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
         SL.setPower(.8);
@@ -437,21 +436,43 @@ public class Encoder extends LinearOpMode {
         SL.setPower(0);
         SR.setPower(0);
 
-        SL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        SR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-
     }
 
     public void clawIn() {
 
         SL.setTargetPosition(MinExtension);
         SR.setTargetPosition(MinExtension);
+
+        SL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        SR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
         SL.setPower(-.8);
         SR.setPower(-.8);
 
         while (opModeIsActive() && (SL.isBusy() && SR.isBusy())) {
+            telemetry.addData("Slides Moving","Yupii");
+            telemetry.update();
+        }
 
+        SL.setPower(0);
+        SR.setPower(0);
+
+    }
+
+    public void clawOutLittle() {
+
+        SL.setTargetPosition(70);
+        SR.setTargetPosition(70);
+
+        SL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        SR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        SL.setPower(1);
+        SR.setPower(1);
+
+        while (opModeIsActive() && (SL.isBusy() && SR.isBusy())) {
+            telemetry.addData("Slides Moving","Yupii");
+            telemetry.update();
         }
 
         SL.setPower(0);
