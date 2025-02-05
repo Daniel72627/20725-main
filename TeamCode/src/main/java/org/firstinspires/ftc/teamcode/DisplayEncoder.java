@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@TeleOp(name = "DisplayEncoder", group = "Robot")
+@TeleOp(name = "N/A", group = "Robot")
 public class DisplayEncoder extends OpMode {
 
     public DcMotor BL, BR, FR, FL, SL, SR, UL,UR;
@@ -31,13 +31,13 @@ public class DisplayEncoder extends OpMode {
         SC = hardwareMap.get(Servo.class, "L");
         SB = hardwareMap.get(Servo.class, "R");
 
-        BL.setDirection(DcMotor.Direction.FORWARD);
-        BR.setDirection(DcMotor.Direction.FORWARD);
-        FR.setDirection(DcMotor.Direction.FORWARD);
-        FL.setDirection(DcMotor.Direction.FORWARD);
+        BL.setDirection(DcMotor.Direction.REVERSE);
+        BR.setDirection(DcMotor.Direction.REVERSE);
+        FR.setDirection(DcMotor.Direction.REVERSE);
+        FL.setDirection(DcMotor.Direction.REVERSE);
 
         SL.setDirection(DcMotor.Direction.REVERSE);
-        SR.setDirection(DcMotor.Direction.REVERSE);
+        SR.setDirection(DcMotor.Direction.FORWARD);
 
         SWL.setDirection(Servo.Direction.FORWARD);
         SWR.setDirection(Servo.Direction.FORWARD);
@@ -49,8 +49,18 @@ public class DisplayEncoder extends OpMode {
 
         SL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         SR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        FR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        FL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        BR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        BL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         SL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         SR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        FL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        FR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        BL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        BR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+
 
         telemetry.addData("Status", "Initialized Yupi");
     }
@@ -71,12 +81,22 @@ public class DisplayEncoder extends OpMode {
             setMotors(1,-1,-1,1);
         }
 
+        if(gamepad1.dpad_up){
+            setMotors(1,1,1,1);
+        }
+
         telemetry.addData("Slide Left Encoder", SL.getCurrentPosition());
         telemetry.addData("Slide Right Encoder", SR.getCurrentPosition());
         telemetry.addData("Front Left", FL.getCurrentPosition());
         telemetry.addData("Front Right", FR.getCurrentPosition());
         telemetry.addData("Back Left", BL.getCurrentPosition());
         telemetry.addData("Back Right", BR.getCurrentPosition());
+        telemetry.addData("Slide Left Power", SL.getPower());
+        telemetry.addData("Slide Right Power", SL.getPower());
+        telemetry.addData("Front Left Power", FL.getPower());
+        telemetry.addData("Front Right Power", FR.getPower());
+        telemetry.addData("Back Left Power", BL.getPower());
+        telemetry.addData("Back Right Power", BR.getPower());
         telemetry.update();
 
 

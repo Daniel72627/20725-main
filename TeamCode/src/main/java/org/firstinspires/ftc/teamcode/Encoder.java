@@ -5,8 +5,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.ftccommon.internal.manualcontrol.parameters.MotorTargetVelocityParameters;
-
 
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Autonomous Encoder:(", group = "Utilities")
 public class Encoder extends LinearOpMode {
@@ -14,15 +12,15 @@ public class Encoder extends LinearOpMode {
     public DcMotor BL, BR, FR, FL, SL, SR, UL,UR;
     public Servo SWL,SWR,SC,SB;
 
-    static final double COUNTS_PER_MOTOR_REV = 537.7;    // eg: TETRIX Motor Encoder
+    static final double COUNTS_PER_MOTOR_REV = 960;    // eg: TETRIX Motor Encoder
     static final double DRIVE_GEAR_REDUCTION = 1.0;     // No External Gearing.
     static final double WHEEL_DIAMETER_INCHES = 3.77953;     // For figuring circumference
     public final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1415);
 
-    public final int MaxExtension = 1000;
+    public final int MaxExtension = 250;
     public final int MinExtension = 0;
-    public final double ticks_per_angle = 7.12;
+    public final double ticks_per_angle = 16;
 
 
     @Override
@@ -45,21 +43,22 @@ public class Encoder extends LinearOpMode {
         SC = hardwareMap.get(Servo.class, "L");
         SB = hardwareMap.get(Servo.class, "R");
 
-        BL.setDirection(DcMotor.Direction.FORWARD);
+        BL.setDirection(DcMotor.Direction.REVERSE);
         BR.setDirection(DcMotor.Direction.FORWARD);
         FR.setDirection(DcMotor.Direction.FORWARD);
-        FL.setDirection(DcMotor.Direction.FORWARD);
+        FL.setDirection(DcMotor.Direction.REVERSE);
 
         SL.setDirection(DcMotor.Direction.REVERSE);
-        SR.setDirection(DcMotor.Direction.REVERSE);
+        SR.setDirection(DcMotor.Direction.FORWARD);
 
         SWL.setDirection(Servo.Direction.FORWARD);
         SWR.setDirection(Servo.Direction.FORWARD);
         SC.setDirection(Servo.Direction.FORWARD);
         SB.setDirection(Servo.Direction.FORWARD);
 
-        UL.setDirection(DcMotor.Direction.FORWARD);
-        UR.setDirection(DcMotor.Direction.FORWARD);
+        UL.setDirection(DcMotor.Direction.REVERSE);
+        UR.setDirection(DcMotor.Direction.REVERSE);
+
 
         reset_encoders();
         SL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -68,41 +67,42 @@ public class Encoder extends LinearOpMode {
 
         SL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         SR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-
         FL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         FR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         BL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         BR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+        waitForStart();
 
+        //upBasket(1000);
+        //moveForward(10,1);
+        //moveBackward(10,1);
+        //moveLeft(10,1);
+        //moveRight(10,1);
+        //moveLeft(10,1);
+        //turnLeft(90);
+        //turnRight(90);
+        //clawOut();
+        //downArm(1000);
+        //openClaw(1000);
+        //closeClaw(1000);
+        //upArm(1000);
+        //downBasket(1000);
+        //clawIn();
+        //openClaw(1000);
 
-        upBasket(1000);
-        moveForward(10,1);
-        moveBackward(10,1);
-        moveLeft(10,1);
-        moveRight(10,1);
-        moveLeft(10,1);
-        turnLeft(90);
-        turnRight(90);
         clawOut();
-        downArm(1000);
-        openClaw(1000);
-        closeClaw(1000);
-        upArm(1000);
-        downBasket(1000);
-        clawIn();
-        openClaw(1000);
 
+        sleep(100000);
 
 
         // SCORE FIRST ONEEEEEEEEEEEEEE
         moveLeft(10,1);
         moveBackward(13,1);
         turnLeft(45);
-        four_up(2000);
-        upBasket(1000);
-        four_down(2000);
+        four_up();
+        upBasket(2500);
+        four_down();
         turnLeft(45); // straightened
 
         // SCORE FAR RIGHT
@@ -120,9 +120,9 @@ public class Encoder extends LinearOpMode {
         moveForward(8,1);
         moveLeft(3,1);
         turnRight(45);
-        four_up(2000);
+        four_up();
         upBasket(1000);
-        four_down(1000);
+        four_down();
         turnLeft(45); // Strightned
 
 
@@ -133,15 +133,17 @@ public class Encoder extends LinearOpMode {
         openClaw(1000);
         downBasket(0);
         downArm(1000);
+        closeClaw(1000);
+        upArm(1000);
         clawIn();
         openClaw(1000);
         clawOut(); // fix this toooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
         moveForward(8,1);
         moveRight(7,1);
         turnRight(45);
-        four_up(2000);
+        four_up();
         upBasket(1000);
-        four_down(1000);
+        four_down();
         turnLeft(45); // Strightned
 
         //3rd
@@ -405,36 +407,39 @@ public class Encoder extends LinearOpMode {
         sleep(time);
     }
 
-    public void four_up(int time) {
+    public void four_up() {
         UL.setPower(1);
         UR.setPower(1);
-        sleep(time);
-        UL.setPower(0);
-        UR.setPower(0);
 
     }
 
-    public void four_down(int time) {
+    public void four_down() {
         UL.setPower(-1);
         UR.setPower(-1);
-        sleep(time);
-        UL.setPower(0);
-        UR.setPower(0);
-
     }
 
     public void clawOut() {
         SL.setTargetPosition(MaxExtension);
         SR.setTargetPosition(MaxExtension);
+
+        SL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        SL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
         SL.setPower(.8);
         SR.setPower(.8);
 
         while (opModeIsActive() && (SL.isBusy() && SR.isBusy())) {
-
+            telemetry.addData("Slides Moving","Yupii");
+            telemetry.update();
         }
 
         SL.setPower(0);
         SR.setPower(0);
+
+        SL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        SR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
 
     }
 

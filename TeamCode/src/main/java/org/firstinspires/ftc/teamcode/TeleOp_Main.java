@@ -37,12 +37,12 @@ public class TeleOp_Main extends OpMode {
         SB = hardwareMap.get(Servo.class, "R");
 
         BL.setDirection(DcMotor.Direction.REVERSE);
-        BR.setDirection(DcMotor.Direction.REVERSE);
-        FR.setDirection(DcMotor.Direction.REVERSE);
+        BR.setDirection(DcMotor.Direction.FORWARD);
+        FR.setDirection(DcMotor.Direction.FORWARD);
         FL.setDirection(DcMotor.Direction.REVERSE);
 
         SL.setDirection(DcMotor.Direction.REVERSE);
-        SR.setDirection(DcMotor.Direction.REVERSE);
+        SR.setDirection(DcMotor.Direction.FORWARD);
 
         SWL.setDirection(Servo.Direction.FORWARD);
         SWR.setDirection(Servo.Direction.FORWARD);
@@ -51,6 +51,20 @@ public class TeleOp_Main extends OpMode {
 
         UL.setDirection(DcMotor.Direction.FORWARD);
         UR.setDirection(DcMotor.Direction.FORWARD);
+
+
+        SL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        SR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        FR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        FL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        BR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        BL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        SL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        SR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        FL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        FR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        BL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        BR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         telemetry.addData("Status", "Initialized Yupi");
     }
@@ -98,6 +112,15 @@ public class TeleOp_Main extends OpMode {
             SL.setPower(0);
             SR.setPower(0);
         }
+
+        if(gamepad1.y) {
+            SL.setPower(-.6);
+            SR.setPower(-.6);
+        } else {
+            SL.setPower(0);
+            SR.setPower(0);
+        }
+
         //SL.setPower(gamepad1.right_stick_y);
         //SR.setPower(gamepad1.right_stick_y);
 
@@ -135,6 +158,21 @@ public class TeleOp_Main extends OpMode {
 
         last_a_state = current_a_state;
         last_b_state = current_b_state;
+
+        telemetry.addData("Slide Left Encoder", SL.getCurrentPosition());
+        telemetry.addData("Slide Right Encoder", SR.getCurrentPosition());
+        telemetry.addData("Front Left", FL.getCurrentPosition());
+        telemetry.addData("Front Right", FR.getCurrentPosition());
+        telemetry.addData("Back Left", BL.getCurrentPosition());
+        telemetry.addData("Back Right", BR.getCurrentPosition());
+        telemetry.addData("Slide Left Power", SL.getPower());
+        telemetry.addData("Slide Right Power", SL.getPower());
+        telemetry.addData("Front Left Power", FL.getPower());
+        telemetry.addData("Front Right Power", FR.getPower());
+        telemetry.addData("Back Left Power", BL.getPower());
+        telemetry.addData("Back Right Power", BR.getPower());
+        telemetry.update();
+
     }
 
     @Override
