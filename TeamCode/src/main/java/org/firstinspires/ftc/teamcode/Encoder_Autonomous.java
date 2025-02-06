@@ -2,12 +2,11 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Autonomous Encoder:(", group = "Utilities")
-public class Encoder extends LinearOpMode {
+public class Encoder_Autonomous extends LinearOpMode {
 
     public DcMotor BL, BR, FR, FL, SL, SR, UL,UR;
     public Servo SWL,SWR,SC,SB;
@@ -19,7 +18,7 @@ public class Encoder extends LinearOpMode {
             (WHEEL_DIAMETER_INCHES * 3.1415);
 
     public final int MaxExtension = 250;
-    public final int MinExtension = 0;
+    public final int MinExtension = -1;
     public final double ticks_per_angle = 16;
 
 
@@ -73,11 +72,13 @@ public class Encoder extends LinearOpMode {
         BR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         waitForStart();
+
         moveLeft(10,1);
         moveBackward(13,1);
         turnLeft(45);
         four_up();
         upBasket(3000);
+        downBasket(1000);
         four_down();
         turnLeft(45); // straightened
 
@@ -95,7 +96,6 @@ public class Encoder extends LinearOpMode {
         moveForward(7,1);
         moveLeft(3,1);
         turnRight(45);
-        clawOutLittle(); // so claw moves out of basket
         sleep(2000);
         four_up();
         upBasket(3000);
@@ -117,7 +117,6 @@ public class Encoder extends LinearOpMode {
         moveForward(7,1);
         moveRight(7,1);
         turnRight(45);
-        clawOutLittle();
         sleep(2000);
         four_up();
         upBasket(3000);
@@ -138,7 +137,6 @@ public class Encoder extends LinearOpMode {
         openClaw(1000);
         moveForward(1,1);
         turnRight(78);
-        clawOutLittle();
         sleep(2000);
         four_up();
         upBasket(3000);
@@ -188,7 +186,7 @@ public class Encoder extends LinearOpMode {
         BR.setPower(power);
 
         while(opModeIsActive() & (FL.isBusy() || FR.isBusy() || BL.isBusy() || BR.isBusy())) {
-            telemetry.addData("DRIVING FORWARDS at", "%7d :%7d :%7d :%7d",
+            telemetry.addData("MOVING FORWARD at", "%7d :%7d :%7d :%7d",
                     FL.getCurrentPosition(),
                     FR.getCurrentPosition(),
                     BL.getCurrentPosition(),
@@ -199,7 +197,6 @@ public class Encoder extends LinearOpMode {
         stop_motor();
 
         reset_encoders();
-
     }
 
     //-----------------------------------------------------------------------------------------
@@ -425,13 +422,16 @@ public class Encoder extends LinearOpMode {
         SR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
-        SL.setPower(.8);
-        SR.setPower(.8);
+        SL.setPower(1);
+        SR.setPower(1);
 
-        while (opModeIsActive() && (SL.isBusy() && SR.isBusy())) {
-            telemetry.addData("Slides Moving","Yupii");
+        while(opModeIsActive() & (SL.isBusy() || SR.isBusy())) {
+            telemetry.addData("Claw Out at", "%7d :%7d",
+                    SL.getCurrentPosition(),
+                    SR.getCurrentPosition());
             telemetry.update();
         }
+
 
         SL.setPower(0);
         SR.setPower(0);
@@ -446,32 +446,13 @@ public class Encoder extends LinearOpMode {
         SL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         SR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        SL.setPower(-.8);
-        SR.setPower(-.8);
+        SL.setPower(-1);
+        SR.setPower(-1);
 
-        while (opModeIsActive() && (SL.isBusy() && SR.isBusy())) {
-            telemetry.addData("Slides Moving","Yupii");
-            telemetry.update();
-        }
-
-        SL.setPower(0);
-        SR.setPower(0);
-
-    }
-
-    public void clawOutLittle() {
-
-        SL.setTargetPosition(70);
-        SR.setTargetPosition(70);
-
-        SL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        SR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        SL.setPower(1);
-        SR.setPower(1);
-
-        while (opModeIsActive() && (SL.isBusy() && SR.isBusy())) {
-            telemetry.addData("Slides Moving","Yupii");
+        while(opModeIsActive() & (SL.isBusy() || SR.isBusy())) {
+            telemetry.addData("Claw In at", "%7d :%7d",
+                    SL.getCurrentPosition(),
+                    SR.getCurrentPosition());
             telemetry.update();
         }
 

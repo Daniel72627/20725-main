@@ -55,6 +55,7 @@ public class CharlesKiss extends OpMode {
         SR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         SL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         SR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        SR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
 
@@ -75,25 +76,25 @@ public class CharlesKiss extends OpMode {
 
         if (currentPosition1 >= MaxExtension || currentPosition >= MaxExtension) {
 
-            // Stop all motors if any limit is reached
-            SL.setPower(0);
-            SR.setPower(0);
-
             if(gamepad1.left_stick_x < 0 ) {
                 FL.setPower(gamepad1.left_stick_x);
                 FR.setPower(gamepad1.left_stick_x);
+            } else {
+                SL.setPower(0);
+                SR.setPower(0);
             }
 
 
         } else if (currentPosition1 <= MinExtension || currentPosition <= MinExtension) {
 
-            SL.setPower(0);
-            SR.setPower(0);
-
             if (gamepad1.left_stick_x > 0) {
                 SL.setPower(gamepad1.left_stick_x);
                 SR.setPower(gamepad1.left_stick_x);
+            } else {
+                SL.setPower(0);
+                SR.setPower(0);
             }
+
         }
 
         FR.setPower(gamepad1.right_stick_y);
